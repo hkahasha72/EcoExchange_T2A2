@@ -1,17 +1,27 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
+
+app.config['JSON_SORT_KEYS'] = False
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://hope:recycleandtrade123@localhost:5432/eco'
 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
     password = db.Column(db.String(100))
+
+# Create schema classes for serialization/deserialization
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'email', 'password')
+        
 
 @app.cli.command('create')
 def create_db():
@@ -53,10 +63,11 @@ def seed_db():
 
 @app.route('/users')
 def all_users():
-    # select * from "users";
-    stmt = db.select(User).order_by(User.name.email())
+    # select * from "users"
+    stmt = db.select(User).order_by(User.name)
     users = db.session.scalars(stmt).all()
-    return json.dumps(users)
+    return UserSchema(many=True).dumps(users)
+
 
 @app.route('/')
 def index():
