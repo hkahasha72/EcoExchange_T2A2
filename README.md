@@ -12,7 +12,9 @@ The app benefits both sellers and buyers as sellers are able to declutter their 
 
 ## Installtion and set up
 
-Step #1 Clone the repository: locate the folder to save the app, open a terminal, navigate to the wanted folder and then clone the repository from GitHub.
+Step #1 Clone the repository: locate the folder to save the app, open a terminal, navigate to the wanted folder and then clone the repository from GitHub:
+https://github.com/hkahasha72/EcoExchange_T2A2 
+
 
 Step #2 Set up postgresql database: open code with vscode and open postgresql in the intergrated terminal by putting in and running the command “psql” 
 
